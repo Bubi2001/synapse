@@ -1,15 +1,8 @@
 package ALUOperations;
     // Define an enum for ALU operations
-    // [6]divideByZeroFlag;
-    // [5]zeroFlag;
-    // [4]negativeFlag;
-    // [3]overflowFlag;
-    // [2]evenParityFlag
-    // [1]oddParityFlag;
-    // [0]carryOut;
     typedef enum logic [5:0] {
         ALU_NOP     = 6'h00,    // No Operation
-        ALU_ADD     = 6'h01,    // Addition             (out = a + b)
+        ALU_ADD     = 6'h01,    // Addition             (out = a + b + c)
         ALU_SUB     = 6'h02,    // Subtraction          (out = a - b)
         ALU_AND     = 6'h03,    // Bitwise AND          (out = a & b)
         ALU_OR      = 6'h04,    // Bitwise OR           (out = a | b)
@@ -34,10 +27,10 @@ package ALUOperations;
         ALU_DIVU    = 6'h17,    // Div. Quo. Unsigned   (out = a / b)
         ALU_REM     = 6'h18,    // Division, Remainder  (out = a % b)
         ALU_REMU    = 6'h19,    // Div. Rem. Unsigned   (out = a % b)
-        ALU_SLO     = 6'h1A,    // Shift Left Ones      (out = {[31-b:0]a,b{1'b1}})
-        ALU_SRO     = 6'h1B,    // Shift Right Ones     (out = {b{1'b1},[31:b]a})
-        ALU_ROL     = 6'h1C,    // Rotate Left          (out)
-        ALU_ROR     = 6'h1D,    // Rotate Right         (out)
+        ALU_SLO     = 6'h1A,    // Shift Left Ones      (out = (a << b[4:0]) | ((1 << b[4:0]) - 1))
+        ALU_SRO     = 6'h1B,    // Shift Right Ones     (out = (a >> b[4:0]) | ((32'hFFFFFFFF << (32 - b[4:0]))))
+        ALU_ROL     = 6'h1C,    // Rotate Left          (out = (a << b[4:0]) | (a >> (32 - b[4:0])))
+        ALU_ROR     = 6'h1D,    // Rotate Right         (out = (a >> b[4:0]) | (a << (32 - b[4:0])))
         ALU_SBSET   = 6'h1E,    // Single Bit Set       (out = a | (1 << b[4:0]))
         ALU_SBCLR   = 6'h1F,    // Single Bit Clear     (out = a & ~(1 << b[4:0]))
         ALU_SBINV   = 6'h20,    // Single Bit Invert    (out = a ^ (1 << b[4:0]))
@@ -45,7 +38,7 @@ package ALUOperations;
         ALU_CLZ     = 6'h22,    // Count Leading Zeros
         ALU_CTZ     = 6'h23,    // Count Trailing Zeros
         ALU_PCNT    = 6'h24,    // Population Count
-        ALU_BEXT    = 6'h25,    // Bit Extract          (out = a & b)
+        ALU_BEXT    = 6'h25,    // Bit Extract          (out = (a >> b[4:0]) & 1)
         ALU_BDEP    = 6'h26,    // Bit Deposit          (out)
         ALU_GREV    = 6'h27,    // Generalized Reverse
         ALU_SHFL    = 6'h28,    // Shuffle
@@ -54,8 +47,8 @@ package ALUOperations;
         ALU_DECA    = 6'h2B,    // Decrement A          (out = a - 1)
         ALU_ABS     = 6'h2C,    // Absolute Value       (out = |a|)
         ALU_NEG     = 6'h2D,    // Arithmetic Negation  (out = -a)
-        ALU_RLTC    = 6'h2E,    // Rotate Left Carry    (out)
-        ALU_RRTC    = 6'h2F,    // Rotate Right Carry   (out)
+        ALU_RLTC    = 6'h2E,    // Rotate Left Carry    (out = ((a << b[4:0]) | (a >> (32 - b[4:0]))) | (c << (b[4:0]-1)
+        ALU_RRTC    = 6'h2F,    // Rotate Right Carry   (out = ((a >> b[4:0]) | (a << (32 - b[4:0]))) | (c << (32-b[4:0])))
         ALU_BITREV  = 6'h30,    // Bit Reverse          (out[31:0] = a[0:31])
         ALU_BSWAP   = 6'h31,    // Byte Swap (endianness)
         ALU_MIN     = 6'h32,    // Minimum              (out = min(a,b))
@@ -64,13 +57,3 @@ package ALUOperations;
         ALU_MAXU    = 6'h35     // Maximum Unsigned     (out = max(a,b))
     } alu_op_t;
 endpackage
-
-/*
- * add, sub, and, or, xor, sll, slt, sltu, srl, sra
- * // addi, slli, slti, sltiu, xori, srli, srai, ori, andi
- * mulh, mulhu, mulhsu, div, divu, mul, rem, remu
- * andn, orn, xorn, slo, sro, rol, ror, sbset, sbclr, sbinv, sbext, clz, ctz, pcnt, sbext, bdep, grev, shfl, unshfl
- * xnor, not, nand, nor
- * inca, deca
- * abs, neg, rltc, rrtc, bitrev, bswap
- */

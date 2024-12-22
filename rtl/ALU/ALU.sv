@@ -7,7 +7,7 @@ module ALU (
     input  alu_op_t     aluOp,
     output logic [31:0] aluOut,
     output logic [6:0]  flagsOut
-    // [6]divideByZeroFlag; [5]zeroFlag; [4]negativeFlag; [3]overflowFlag; [2]evenParityFlag; [1]oddParityFalg; [0]carryOut
+    // [6]divideByZeroFlag; [5]zeroFlag; [4]negativeFlag; [3]overflowFlag; [2]evenParityFlag; [1]oddParityFlag; [0]carryOut
 );
     logic [31:0] aArith, bArith, outArith, aLog, bLog, outLog;
     logic [6:0] flagsArith, flagsLog;
