@@ -1,5 +1,14 @@
+import FPUOperations::*;
+
 module FPU (
-    ports
+    input  logic        clk,
+    input  logic        rst_n,
+    input  logic [63:0] opA,
+    input  logic [63:0] opB,
+    input  logic [63:0] opC,
+    input  fpu_op_t     fpuOp,
+    output logic [63:0] fpuOut,
+    output logic [6:0]  flagsOut
 );
     
 endmodule
