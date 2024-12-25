@@ -18,7 +18,7 @@ module ArithmeticOps (
     logic oddParityFlag;
     logic evenParityFlag;
     logic overflowFlag;
-    logic negativeFlag;
+    logic signFlag;
     logic zeroFlag;
     logic divideByZeroFlag;
 
@@ -376,7 +376,7 @@ module ArithmeticOps (
     always_comb begin
         oddParityFlag   = ^out;
         evenParityFlag  = !(^out);
-        negativeFlag    = out[31];
+        signFlag        = out[31];
         zeroFlag        = (out == 32'b0) ? 1'b1 : 1'b0;
         case (aluOp)
             ALU_ADD:    overflowFlag = ((signedA[31] & signedB[31] & !(out[31])) | (!(signedA[31]) & !(signedB[31]) & out[31]));
@@ -388,6 +388,6 @@ module ArithmeticOps (
         endcase
     end
 
-    assign flags = {divideByZeroFlag, zeroFlag, negativeFlag, overflowFlag, evenParityFlag, oddParityFlag, carryOut};
+    assign flags = {divideByZeroFlag, carryOut, overflowFlag, evenParityFlag, oddParityFlag, signFlag, zeroFlag};
 
 endmodule

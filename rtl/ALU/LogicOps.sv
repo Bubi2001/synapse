@@ -13,7 +13,7 @@ module LogicOps (
     logic oddParityFlag;
     logic evenParityFlag;
     logic overflowFlag;
-    logic negativeFlag;
+    logic signFlag  ;
     logic zeroFlag;
     logic divideByZeroFlag;
 
@@ -103,15 +103,15 @@ module LogicOps (
     end
 
     always_comb begin
-        carryOut            = 1'b0;
+        zeroFlag            = (out == 32'b0) ? 1'b1 : 1'b0;
+        signFlag            = out[31];
         oddParityFlag       = ^out;
         evenParityFlag      = !(^out);
         overflowFlag        = 1'b0;
-        negativeFlag        = out[31];
-        zeroFlag            = (out == 32'b0) ? 1'b1 : 1'b0;
+        carryOut            = 1'b0;
         divideByZeroFlag    = 1'b0;
     end
 
-    assign flags = {divideByZeroFlag, zeroFlag, negativeFlag, overflowFlag, evenParityFlag, oddParityFlag, carryOut};
+    assign flags = {divideByZeroFlag, carryOut, overflowFlag, evenParityFlag, oddParityFlag, signFlag, zeroFlag};
 
 endmodule
