@@ -7,10 +7,23 @@ module FPU (
     input  logic [63:0] opB,
     input  logic [63:0] opC,
     input  fpu_op_t     fpuOp,
+    input  logic        enable,
     output logic [63:0] fpuOut,
     output logic [6:0]  flagsOut
+    // [6]divideByZeroFlag; [5]invalidOperationFlag; [4]overflowFlag; [3]underflowFlag; [2]inexactResultFlag; [1]signFlag; [0]zeroFlag
 );
-    
+    logic [31:0] aSingle = opA[31:0];
+    logic [31:0] bSingle = opB[31:0];
+    logic [31:0] cSingle = opC[31:0];
+    logic [31:0] outSingle;
+
+    always_comb begin
+        case (fpuOp)
+            FPU_NOP:     
+            default: 
+        endcase
+    end
+
 endmodule
 
 module fpu (
